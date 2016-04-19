@@ -1,5 +1,11 @@
 # Generating Certs
 
+**IMPORTANT!!!**
+
+The ca/ directory contains a sample CA to generate the certs. *DON'T* use this to secure anything other than this example and especially anything public
+
+## Generate The Node Certs
+
 Use the gencerts.sh script in this directory to generate certs for the nodes as follows
 
 ```bash

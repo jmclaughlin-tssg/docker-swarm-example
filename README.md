@@ -4,6 +4,24 @@ This is an an example to get a 2 node with manager Docker Swarm up and running q
 
 This example assumes running on Ubuntu 14.04 - modifications would be necessary to run on Windows or OS-X
 
+## Creating A Swarm
+
+For test purposes, we'll use the Docker public discovery backend. Create a test cluster as follows (doesn't matter where this is run) :
+
+```bash
+docker run --rm swarm create
+```
+
+**Output (similar):**
+
+```
+:
+Status: Downloaded newer image for swarm:latest
+0ac50ef75c9739f5bfeeaf00503d4e6e
+```
+
+Save the hex key on the last line of the output. This is the CLUSTER_ID that will be necessary for the rest of the example
+
 ## Using
 
 1. Generate certs as per the instructions in [ssl/README.md](../blob/master/ssl/README.md)
@@ -20,7 +38,7 @@ With nodes up and running, list the nodes as follows (on client - i.e. the host)
 docker run --rm swarm list token://CLUSTER_ID
 ```
 
-*Output:*
+**Output:**
 
 ```
 192.168.33.12:2376
@@ -38,7 +56,7 @@ docker \
     -H 192.168.33.10:3376 \
     info
 ```
-*Output (should be similar):*
+**Output (should be similar):**
 
 ```
 Containers: 2
@@ -87,7 +105,7 @@ docker \
     run hello-world
 ```
 
-*Output:*
+**Output:**
 
 ```
 Hello from Docker.
@@ -122,7 +140,7 @@ docker --tlsverify \
     ps -a
 ```
 
-*Output (similar):*
+**Output (similar):**
 
 ```
 CONTAINER ID        IMAGE               COMMAND                CREATED              STATUS                          PORTS               NAMES
