@@ -3,6 +3,7 @@
 Bring up the swarm manager
 
 ```bash
+cd manager
 vagrant up
 ```
 

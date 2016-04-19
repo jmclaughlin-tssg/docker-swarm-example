@@ -3,6 +3,7 @@
 Bring up a Swarm node
 
 ```bash
+cd node2
 vagrant up
 ```
 

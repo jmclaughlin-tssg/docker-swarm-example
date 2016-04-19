@@ -1,8 +1,16 @@
 # Simple Docker Swarm Example
 
-This is an an example to get a 2 node with manager Docker Swarm up and running quickly, using Vagrant to fire up the necessary VMs, TLS to secure the connections to the Docker engine instances, and the Docker provided service discovery backend for test purposes
+This is an an example to get a 2 node with manager Docker Swarm up and running quickly, using Vagrant to fire up the necessary VMs (provisioned by Ansible), self signed TLS certs - using a provided CA - to secure the connections to the Docker engine instances, and the Docker provided service discovery backend for test purposes
 
 This example assumes running on Ubuntu 14.04 - modifications would be necessary to run on Windows or OS-X
+
+It could of course be modified to automate a lot more stuff, but hiding the implementation details completely would miss the point :-)
+
+## Prerequisites
+
+* Ubuntu 14.04 host OS
+* Vagrant
+* Docker Engine installed on host (1.10 or later)
 
 ## Creating A Swarm
 

@@ -2,13 +2,14 @@
 
 **IMPORTANT!!!**
 
-The ca/ directory contains a sample CA to generate the certs. *DON'T* use this to secure anything other than this example and especially anything public
+The ca/ directory contains a sample CA to generate the certs. *DON'T* use this to secure anything other than this example and especially anything public, just don't!
 
 ## Generate The Node Certs
 
 Use the gencerts.sh script in this directory to generate certs for the nodes as follows
 
 ```bash
+cd ssl
 ./gencerts.sh swarm 192.168.33.10 # Manager node
 ./gencerts.sh node1 192.168.33.11 # Swarm node 1
 ./gencerts.sh node2 192.168.33.12 # Swarm node 2
@@ -22,9 +23,9 @@ cp node1/*.pem ../node1/roles/docker-config/files/certs
 cp node2/*.pem ../node2/roles/docker-config/files/certs
 ```
 
-Generate a cert for the client as follows, replacing CLIENT_IP_ADDR with the actual IP address of the client
+Generate a cert for the client as follows, replacing CLIENT_IP_ADDR with the actual IP address of your client (typically your host machine on which you're running the VMs)
 
 ```bash
-$ gencerts.sh swarm CLIENT_IP_ADDR
+./gencerts.sh client CLIENT_IP_ADDR
 ```
 Leave these in the client directory and reference them using the Docker command line when invoking
