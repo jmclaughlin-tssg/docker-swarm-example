@@ -1,0 +1,8 @@
+---
+- hosts: all
+  roles:
+    - base-config
+    - docker-engine
+    - docker-config
+#    - nodejs
+

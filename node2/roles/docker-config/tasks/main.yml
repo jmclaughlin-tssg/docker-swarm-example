@@ -1,0 +1,29 @@
+---
+- name: Create Docker certs directory
+  become: yes
+  file: path=/etc/docker/certs state=directory
+
+- name: Copy CA cert
+  become: yes
+  copy: src=certs/ca.pem dest=/etc/docker/certs/ca.pem
+
+- name: Copy private key
+  become: yes
+  copy: src=certs/key.pem dest=/etc/docker/certs/key.pem
+  register: key
+
+- name: Copy public cert
+  become: yes
+  copy: src=certs/cert.pem dest=/etc/docker/certs/cert.pem
+
+- name: Configure Docker daemon
+  sudo: yes
+  template:
+    src: etc/default/docker.2
+    dest: /etc/default/docker
+  register: config
+
+- name: Restart Docker daemon
+  become: yes
+  service: name=docker enabled=yes state=restarted
+  when: config.changed or key.changed

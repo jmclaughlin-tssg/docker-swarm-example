@@ -1,0 +1,78 @@
+---
+#- debug: var=ansible_system
+
+#- debug: var=ansible_machine
+
+- name: Ensure the system can use the HTTPS transport for APT
+  stat:
+    path: /usr/lib/apt/methods/https
+  register: apt_https_transport
+
+- name: Install HTTPS transport for APT
+  apt: 
+    pkg: apt-transport-https
+    state: installed
+  when: not apt_https_transport.stat.exists
+
+- name: Import Docker key into apt
+  sudo: yes
+  apt_key: keyserver=p80.pool.sks-keyservers.net id=58118E89F3A912897C070ADBF76221572C52609D
+
+- name: Add Docker deb repository
+  sudo: yes
+  apt_repository:
+    repo: 'deb https://apt.dockerproject.org/repo ubuntu-{{ ansible_distribution_release }} main'
+    state: present
+    update_cache: yes
+
+- name: Remove old Docker version
+  sudo: yes
+  apt:
+    pkg: 'lxc-docker'
+    state: absent
+
+- name: Install Docker Engine
+  sudo: yes
+  apt:
+    pkg: 'docker-engine'
+    state: installed
+
+- name: Add {{ ansible_ssh_user }} to docker group
+  sudo: yes
+  user: name={{ansible_ssh_user}} groups=docker append=yes
+  
+- name: Start Docker
+  sudo: yes
+  service: name=docker state=restarted
+
+- name: Is Docker Compose installed?
+  stat: path=/usr/bin/docker-compose
+  register: dc_installed
+
+#- debug: var=dc_installed 
+
+- name: Check Docker Compose up to date
+  command: docker-compose --version
+  when: dc_installed.stat.exists
+  register: dc_utd
+  ignore_errors: true
+
+#- debug: var=dc_utd
+
+#- debug: var=dc_utd.stdout.find('{{ docker_compose_version }}')
+
+- name: Install Docker Compose
+  sudo: yes
+  get_url:
+    url: https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-{{ ansible_system }}-{{ ansible_machine }}
+    dest: /usr/bin/docker-compose
+    force: yes
+  when: (not dc_installed.stat.exists or dc_utd.stdout.find('{{ docker_compose_version }}')<0)
+  register: dc_installed
+
+#- debug: var=dc_installed 
+
+- name: Set Docker Compose permissions
+  sudo: yes
+  file: path=/usr/bin/docker-compose mode=0755 
+  when: dc_installed.changed
