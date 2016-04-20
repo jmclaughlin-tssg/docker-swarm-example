@@ -32,11 +32,11 @@ Save the hex key on the last line of the output. This is the CLUSTER_ID that wil
 
 ## Using
 
-1. Generate certs as per the instructions in [ssl/README.md](../blob/master/ssl/README.md)
+1. Generate certs as per the instructions in [ssl/README.md](../master/ssl/README.md)
 1. Start up and provision the VMs:
-  1. [Swarm Manager](../blob/master/manager/README.md)
-  1. [Swarm Node 1](../blob/master/node1/README.md)
-  1. [Swarm Node 2](../blob/master/node2/README.md)
+  1. [Swarm Manager](../master/manager/README.md)
+  1. [Swarm Node 1](../master/node1/README.md)
+  1. [Swarm Node 2](../master/node2/README.md)
 
 ## Testing
 
